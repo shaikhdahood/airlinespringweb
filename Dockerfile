@@ -44,7 +44,7 @@ COPY target/${app_artifact}.war ${app_dir}/tomcat/${app_context_root}/${app_name
 EXPOSE 8080
 
 #ENTRYPOINT ["java","${JAVA_OPTS}","-jar","${app_dir}/tomcat/${app_name}/${app_artifact}.war"]
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -jar ${app_dir}/tomcat/${app_name}/${app_artifact}.war" ]
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -jar ${app_dir}/tomcat/${app_context_root}/${app_name}.war" ]
 ###
 ##$ docker build -t springboot/airlinespringweb-docker .
 ##$ docker container run -d -p 8080:8080 springboot/airlinespringweb-docker
