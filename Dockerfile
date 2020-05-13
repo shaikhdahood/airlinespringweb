@@ -8,7 +8,7 @@ LABEL maintainer="myapplicationsupport@company.com"
 
 ## Collect image build time arguments or use default
 ARG app_artifact=airlinespringweb-0.0.1-SNAPSHOT
-ARG app_context_root=airlinespringweb
+ARG app_context_root=airlineweb
 ARG app_health_uri=isAlive
 ARG app_health_patern="successful"
 ARG app_name=airlinespringweb
@@ -32,7 +32,7 @@ ENV JAVA_OPTS "-server -Xms256m -Xmx768m -XX:MetaspaceSize=72m -XX:MaxMetaspaceS
 #RUN cd ${app_docker_dir};
 
 ## setup the exploded war directory for delivery
-COPY target/${app_artifact}.war ${app_dir}/tomcat/${app_name}/
+COPY target/${app_artifact}.war ${app_dir}/tomcat/${app_context_root}/${app_name}.war
 
 ##chown [OPTIONS] USER[:GROUP] FILE(s)
 # Ensure access to files by running user.
@@ -43,7 +43,8 @@ COPY target/${app_artifact}.war ${app_dir}/tomcat/${app_name}/
 # Inform Docker that the container is listening on the specified port at runtime.
 EXPOSE 8080
 
-ENTRYPOINT ["java","${JAVA_OPTS}","-jar","${app_dir}/tomcat/${app_name}/${app_artifact}.war"]
+#ENTRYPOINT ["java","${JAVA_OPTS}","-jar","${app_dir}/tomcat/${app_name}/${app_artifact}.war"]
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -jar ${app_dir}/tomcat/${app_name}/${app_artifact}.war" ]
 ###
 ##$ docker build -t springboot/airlinespringweb-docker .
 ##$ docker container run -d -p 8080:8080 springboot/airlinespringweb-docker
