@@ -31,8 +31,11 @@ ENV JAVA_OPTS "-server -Xms256m -Xmx768m -XX:MetaspaceSize=72m -XX:MaxMetaspaceS
 
 #RUN cd ${app_docker_dir};
 
+RUN mkdir -p ${app_dir}/tomcat/${app_context_root};
+
 ## setup the exploded war directory for delivery
 #COPY target/${app_artifact}.war ${app_dir}/tomcat/${app_context_root}/${app_name}.war
+
 COPY target/${app_artifact}.war /work/webapps/tomcat/airlineweb/airlinespringweb.war
 
 ##chown [OPTIONS] USER[:GROUP] FILE(s)
