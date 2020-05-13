@@ -1,5 +1,5 @@
 # Use the official image as a parent image.
-RUN echo "creating image from openjdk:8";
+#RUN echo "creating image from openjdk:8";
 FROM openjdk:8
 
 ## Author
