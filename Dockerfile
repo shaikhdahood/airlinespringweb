@@ -32,7 +32,7 @@ ENV JAVA_OPTS "-server -Xms256m -Xmx768m -XX:MetaspaceSize=72m -XX:MaxMetaspaceS
 #RUN cd ${app_docker_dir};
 
 ## setup the exploded war directory for delivery
-COPY ${jenkins_target_dir}/target/${app_artifact} ${app_dir}/tomcat/${app_name}/
+COPY ./target/${app_artifact} ${app_dir}/tomcat/${app_name}/
 
 ##chown [OPTIONS] USER[:GROUP] FILE(s)
 # Ensure access to files by running user.
