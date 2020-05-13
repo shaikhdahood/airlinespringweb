@@ -46,7 +46,7 @@ COPY ./target/${app_artifact}.war ${app_dir}/tomcat/${app_context_root}/${app_na
 # Inform Docker that the container is listening on the specified port at runtime.
 EXPOSE 8080
 
-ENTRYPOINT ["java","${JAVA_OPTS}","-jar","${app_dir}/tomcat/${app_name}/${app_artifact}.war"]
+ENTRYPOINT ["java","$JAVA_OPTS","-jar","${app_dir}/tomcat/${app_name}/${app_artifact}.war"]
 #ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -jar /work/webapps/tomcat/airlineweb/airlinespringweb.war" ]
 ###
 ##$ docker build -t springboot/airlinespringweb-docker .
