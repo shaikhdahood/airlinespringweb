@@ -12,7 +12,7 @@ ARG app_context_root=airlineweb
 ARG app_health_uri=isAlive
 ARG app_health_patern="successful"
 ARG app_name=airlinespringweb
-ARG app_dir=/work/webapps/
+ENV app_dir=/work/webapps/
 
 # Set the working directory. Jenkins sends file to this folder
 #ARG jenkins_target_dir=/work/docker/webapps/
