@@ -8,11 +8,11 @@ LABEL maintainer="myapplicationsupport@company.com"
 
 ## Collect image build time arguments or use default
 ARG app_artifact=airlinespringweb-0.0.1-SNAPSHOT
-ARG app_context_root=airlineweb
+ENV app_context_root=airlineweb
 ARG app_health_uri=isAlive
 ARG app_health_patern="successful"
 ENV app_name=airlinespringweb
-ENV app_dir=/work/webapps/
+ENV app_dir=/work/webapps
 
 # Set the working directory. Jenkins sends file to this folder
 #ARG jenkins_target_dir=/work/docker/webapps/
