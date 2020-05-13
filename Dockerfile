@@ -15,8 +15,8 @@ ARG app_name=airlinespringweb
 ARG app_dir=/work/webapps/
 
 # Set the working directory. Jenkins sends file to this folder
-ARG jenkins_target_dir=/work/docker/webapps/
-#ARG app_docker_dir=/work/docker/webapps/
+#ARG jenkins_target_dir=/work/docker/webapps/
+WORKDIR /work/docker/webapps/
 
 
 # Environment Variables - declare with one ENV where possible
@@ -32,7 +32,7 @@ ENV JAVA_OPTS "-server -Xms256m -Xmx768m -XX:MetaspaceSize=72m -XX:MaxMetaspaceS
 #RUN cd ${app_docker_dir};
 
 ## setup the exploded war directory for delivery
-COPY ./target/${app_artifact} ${app_dir}/tomcat/${app_name}/
+COPY target/${app_artifact}.war ${app_dir}/tomcat/${app_name}/
 
 ##chown [OPTIONS] USER[:GROUP] FILE(s)
 # Ensure access to files by running user.
