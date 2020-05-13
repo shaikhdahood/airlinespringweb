@@ -16,15 +16,15 @@ ARG app_dir=/work/webapps/
 
 # Set the working directory. Jenkins sends file to this folder
 #ARG jenkins_target_dir=/work/docker/webapps/
-WORKDIR /work/docker/webapps/
+WORKDIR ${app_dir}
 
 
 # Environment Variables - declare with one ENV where possible
-ENV LC_ALL en_US.UTF-8
+ENV LC_ALL en_US
 ENV HEALTH_URI /${app_context_root}/${app_health_uri}
 ENV HEALTH_PATTERN ${app_health_patern}
 
-ENV JAVA_OPTS "-server -Xms256m -Xmx768m -XX:MetaspaceSize=72m -XX:MaxMetaspaceSize=256m -Dapp=${app_name} -Dapp.logdir=${app_dir}/tomcat/logs -Dspring.profiles.active=prod"
+ENV JAVA_OPTS="-Xms256m -Xmx768m -XX:MetaspaceSize=72m -XX:MaxMetaspaceSize=256m -Dapp=${app_name} -Dapp.logdir=$app_dir/tomcat/logs -Dspring.profiles.active=prod"
 
 ## create a folder for app image to prevent error in the startup
 #RUN mkdir -p ${app_dir}/app-lib;
@@ -33,10 +33,9 @@ ENV JAVA_OPTS "-server -Xms256m -Xmx768m -XX:MetaspaceSize=72m -XX:MaxMetaspaceS
 
 RUN mkdir -p ${app_dir}/tomcat/${app_context_root};
 
-## setup the exploded war directory for delivery
-#COPY target/${app_artifact}.war ${app_dir}/tomcat/${app_context_root}/${app_name}.war
-
-COPY target/${app_artifact}.war /work/webapps/tomcat/airlineweb/airlinespringweb.war
+## setup the exploded war directory from webserver host folder to the docker container
+COPY ./target/${app_artifact}.war ${app_dir}/tomcat/${app_context_root}/${app_name}.war
+#COPY target/${app_artifact}.war /work/webapps/tomcat/airlineweb/airlinespringweb.war
 
 ##chown [OPTIONS] USER[:GROUP] FILE(s)
 # Ensure access to files by running user.
@@ -47,8 +46,8 @@ COPY target/${app_artifact}.war /work/webapps/tomcat/airlineweb/airlinespringweb
 # Inform Docker that the container is listening on the specified port at runtime.
 EXPOSE 8080
 
-#ENTRYPOINT ["java","${JAVA_OPTS}","-jar","${app_dir}/tomcat/${app_name}/${app_artifact}.war"]
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -jar /work/webapps/tomcat/airlineweb/airlinespringweb.war" ]
+ENTRYPOINT ["java","${JAVA_OPTS}","-jar","${app_dir}/tomcat/${app_name}/${app_artifact}.war"]
+#ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -jar /work/webapps/tomcat/airlineweb/airlinespringweb.war" ]
 ###
 ##$ docker build -t springboot/airlinespringweb-docker .
 ##$ docker container run -d -p 8080:8080 springboot/airlinespringweb-docker
