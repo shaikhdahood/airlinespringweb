@@ -37,8 +37,8 @@ COPY target/${app_artifact} ${app_dir}/tomcat/${app_name}/
 ##chown [OPTIONS] USER[:GROUP] FILE(s)
 # Ensure access to files by running user.
 ## switch user to root - this command works if the root is not set with any password
-sudo su -
-RUN chown -R webserveradmin ${app_dir}
+#sudo su -
+#RUN chown -R webserveradmin ${app_dir}
 
 # Inform Docker that the container is listening on the specified port at runtime.
 EXPOSE 8080
