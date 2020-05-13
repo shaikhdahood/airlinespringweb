@@ -24,7 +24,8 @@ ENV LC_ALL en_US
 ENV HEALTH_URI /${app_context_root}/${app_health_uri}
 ENV HEALTH_PATTERN ${app_health_patern}
 
-ENV JAVA_OPTS="-Xms256m -Xmx768m -XX:MetaspaceSize=72m -XX:MaxMetaspaceSize=256m -Dapp=${app_name} -Dapp.logdir=$app_dir/tomcat/logs -Dspring.profiles.active=prod"
+## JAVA_APP_OPTS is renamed from JAVA_OPTS as conflict with Java env value
+ENV JAVA_APP_OPTS "-Xms256m -Xmx768m -XX:MetaspaceSize=72m -XX:MaxMetaspaceSize=256m -Dapp=${app_name} -Dapp.logdir=$app_dir/tomcat/logs -Dspring.profiles.active=prod"
 
 ## create a folder for app image to prevent error in the startup
 #RUN mkdir -p ${app_dir}/app-lib;
@@ -46,7 +47,7 @@ COPY ./target/${app_artifact}.war ${app_dir}/tomcat/${app_context_root}/${app_na
 # Inform Docker that the container is listening on the specified port at runtime.
 EXPOSE 8080
 
-ENTRYPOINT ["java","$JAVA_OPTS","-jar","${app_dir}/tomcat/${app_name}/${app_artifact}.war"]
+ENTRYPOINT ["java","${JAVA_APP_OPTS}","-jar","${app_dir}/tomcat/${app_name}/${app_artifact}.war"]
 #ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -jar /work/webapps/tomcat/airlineweb/airlinespringweb.war" ]
 ###
 ##$ docker build -t springboot/airlinespringweb-docker .
