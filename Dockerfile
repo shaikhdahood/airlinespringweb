@@ -11,7 +11,7 @@ ARG app_artifact=airlinespringweb-0.0.1-SNAPSHOT
 ARG app_context_root=airlineweb
 ARG app_health_uri=isAlive
 ARG app_health_patern="successful"
-ARG app_name=airlinespringweb
+ENV app_name=airlinespringweb
 ENV app_dir=/work/webapps/
 
 # Set the working directory. Jenkins sends file to this folder
@@ -24,7 +24,7 @@ ENV LC_ALL en_US
 ENV HEALTH_URI /${app_context_root}/${app_health_uri}
 ENV HEALTH_PATTERN ${app_health_patern}
 
-## JAVA_APP_OPTS is renamed from JAVA_OPTS as conflict with Java env value
+# java settings
 ENV JAVA_OPTS "-Xms256m -Xmx768m -XX:MetaspaceSize=72m -XX:MaxMetaspaceSize=256m -Dapp=${app_name} -Dapp.logdir=$app_dir/tomcat/logs -Dspring.profiles.active=prod"
 
 ## create a folder for app image to prevent error in the startup
@@ -48,7 +48,11 @@ COPY ./target/${app_artifact}.war ${app_dir}/tomcat/${app_context_root}/${app_na
 EXPOSE 8080
 
 #ENTRYPOINT ["java","${JAVA_APP_OPTS}","-jar","${app_dir}/tomcat/${app_name}/${app_artifact}.war"]
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -jar $app_dir/tomcat/$app_name/${app_artifact}.war" ]
-###
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -jar ${app_dir}/tomcat/${app_context_root}/${app_name}.war" ]
+
+###VOLUME
+## declare volume for the logs -TODO
+
+
 ##$ docker build -t springboot/airlinespringweb-docker .
 ##$ docker container run -d -p 8080:8080 springboot/airlinespringweb-docker
